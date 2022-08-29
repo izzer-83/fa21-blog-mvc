@@ -1,0 +1,22 @@
+{
+  "name": "eredost/attributes-router",
+  "description": "Simple router that uses the attributes of PHP",
+  "keywords": ["router"],
+  "license": "MIT",
+  "require": {
+    "php": "~8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "AttributesRouter\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AttributesRouter\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}

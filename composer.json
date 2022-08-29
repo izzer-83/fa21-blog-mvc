@@ -1,0 +1,25 @@
+{
+    "name": "izzer/blog-oop",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tk",
+            "email": "thomas@ist-gott.de"
+        }
+    ],
+    "require": {
+        "eredost/attributes-router": "^1.0",
+        "twig/twig": "^3.4"
+    },
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/Eredost/attributes-router.git"
+        }
+     ]
+}
