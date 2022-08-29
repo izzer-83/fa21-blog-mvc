@@ -5,7 +5,7 @@
     use App\Model\AbstractModel;
     use App\View\View;
 
-    class AbstractController {
+    abstract class AbstractController {
 
         protected AbstractModel $model;
         protected View $view;

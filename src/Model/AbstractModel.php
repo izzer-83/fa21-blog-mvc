@@ -9,7 +9,7 @@
     use PDOException;
     
 
-    class AbstractModel {
+    abstract class AbstractModel {
 
         private string $dsn = 'mysql:host=' . DatabaseSettings::DB_HOST . ';dbname=' . DatabaseSettings::DB_NAME;
         protected PDO $pdo;
