@@ -85,23 +85,25 @@
 {% endblock %}
 
 {% block js %} 
-<script>
+    {% if messages %}
+        <script>
 
-    document.addEventListener('DOMContentLoaded', () => {
-        
-        document.getElementById('modal').classList.add('is-active');
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                document.getElementById('modal').classList.add('is-active');
 
-        document.getElementById('close').addEventListener('click', () => { 
-            document.getElementById('modal').classList.remove('is-active');
-        });
+                document.getElementById('close').addEventListener('click', () => { 
+                    document.getElementById('modal').classList.remove('is-active');
+                });
 
-        document.getElementById('close2').addEventListener('click', () => { 
-            document.getElementById('modal').classList.remove('is-active');
-        });
-        
-        
-        
-    });
+                document.getElementById('close2').addEventListener('click', () => { 
+                    document.getElementById('modal').classList.remove('is-active');
+                });
+                
+                
+                
+            });
 
-</script>
+        </script>
+    {% endif %}
 {% endblock %}
