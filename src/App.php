@@ -13,6 +13,7 @@
     use App\Settings\AppSettings;
 
     use AttributesRouter\Router;
+    use App\Controller\AdminController;
     
     class App {
 
@@ -23,6 +24,7 @@
 
             // Add additional routes to the router
             $router->addRoutes([AuthController::class]);
+            $router->addRoutes([AdminController::class]);
 
             // If there is a match, the route will return the class and method associated
             // to the request as well as route parameters
