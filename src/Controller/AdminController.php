@@ -118,7 +118,7 @@
                 $userExist = true;
                 $emailExist = true;
 
-                if (isset($isAdmin) && $isAdmin == 'on') { $isAdmin = true; }               
+                if (isset($_POST['isAdmin']) && $_POST['isAdmin'] == 'on') { $isAdmin = true; }               
 
                 $res = $this->model->getUserByUserID($userID);
 
@@ -150,7 +150,7 @@
                     die();
 
                 }
-
+                
                 // Check if we need an user update with or without new password
                 if ($password == $passwordRepeat && ($password != '' && $passwordRepeat != '')) {
 
