@@ -1,6 +1,6 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="./">
+        <a class="navbar-item" href="{{ basePath }}/">
             FA21
         </a>
   
@@ -13,7 +13,7 @@
   
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="./">
+            <a class="navbar-item" href="{{ basePath }}/">
                 Home
             </a>
       </div>
@@ -22,17 +22,17 @@
         <div class="navbar-item">
           <div class="buttons">
             {% if not session.isLoggedIn %}
-            <a class="button is-primary" href="register">
+            <a class="button is-primary" href="{{ basePath }}/register">
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light" href="login">
+            <a class="button is-light" href="{{ basePath }}/login">
               Log in
             </a>
             {% else %}
             {% if session.isAdmin %}
-            <a class="button is-primary" href="admin">Admin</a>
+            <a class="button is-primary" href="{{ basePath }}/admin">Admin</a>
             {% endif %}
-            <a class="button is-danger" href="logout">Logout</a>
+            <a class="button is-danger" href="{{ basePath }}/logout">Logout</a>
             {% endif %}
           </div>
         </div>

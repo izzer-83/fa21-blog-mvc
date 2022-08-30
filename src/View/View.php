@@ -35,11 +35,12 @@
             // twig globals
             $this->twig->addGlobal('title', AppSettings::APP_TITLE);
             $this->twig->addGlobal('session', $_SESSION);
+            $this->twig->addGlobal('basePath', AppSettings::ROUTER_URI_PREFIX);
 
         }
 
         public function load(string $template): TemplateWrapper {
-
+            
             return $this->twig->load($template);
 
         }
