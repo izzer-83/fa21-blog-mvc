@@ -73,7 +73,40 @@
          * 
          * @return mixed
          */ 
-        public function getUserByName(string $username) {
+        public function getUserByUserID(int $userID): mixed {
+
+            $userID = $this->getCleanString($userID);
+
+            try {
+
+                $sql = "SELECT * FROM user WHERE userID = :userID";
+
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindParam(':userID', $userID);
+                $stmt->execute();
+                
+                $res = $stmt->fetch();
+
+                if ($res == false) { return false; }
+
+                return $res;
+            }
+            catch (PDOException $e) {
+                
+                $this->controller->renderError('auth/login.html', [$e->getMessage()]);
+
+            }
+
+        }
+
+        /**
+         * Fetch a user by username
+         * 
+         * @param string $username
+         * 
+         * @return mixed
+         */ 
+        public function getUserByName(string $username): mixed {
 
             $username = $this->getCleanString($username);
 
@@ -127,6 +160,84 @@
             catch (PDOException $e) {
 
                 $this->controller->renderError('auth/login.html', [$e->getMessage()]);
+
+            }
+
+        }
+
+        public function getAllUsers(): mixed {
+
+            try {
+
+                $sql = "SELECT * FROM user";
+
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute();
+                
+                $res = $stmt->fetchAll();
+
+                if ($res == false) { return false; }
+
+                return $res;
+            }
+            catch (PDOException $e) {
+                
+                $this->controller->renderError('auth/login.html', [$e->getMessage()]);
+
+            }
+
+        }
+
+        public function updateUserByUserID(int $userID, string $username, string $email, bool $isAdmin, string $newPassword = ''): bool {
+
+            if ($newPassword == '') {
+
+                try {
+
+                    $sql = "UPDATE user SET username = :username, email = :email, isAdmin = :isAdmin WHERE userID = :userID;";
+
+                    $stmt = $this->pdo->prepare($sql);
+                    $stmt->bindParam(':userID', $userID);
+                    $stmt->bindParam(':username', $username);
+                    $stmt->bindParam(':email', $email);
+                    $stmt->bindParam(':isAdmin', $isAdmin);
+
+                    return $stmt->execute();
+                }
+                catch (PDOException $e) {
+
+                    // Render PDOException into the template
+                    $this->controller->renderError('admin/edit_user.html', [$e->getMessage()]);
+                    die();
+
+                }
+
+            }
+            else {
+
+                try {  
+
+                    $hashedPassword = $this->encrypt($newPassword);
+
+                    $sql = "UPDATE user SET username = :username, email = :email, isAdmin = :isAdmin, password = :password WHERE userID = :userID;";
+
+                    $stmt = $this->pdo->prepare($sql);
+                    $stmt->bindParam(':userID', $userID);
+                    $stmt->bindParam(':username', $username);
+                    $stmt->bindParam(':email', $email);
+                    $stmt->bindParam(':password', $hashedPassword);
+                    $stmt->bindParam(':isAdmin', $isAdmin);
+
+                    return $stmt->execute();
+
+                }
+                catch (PDOException $e) {
+
+                    // Render PDOException into the template
+                    $this->controller->renderError('admin/edit_user.html', [$e->getMessage()]);
+                    die();
+
+                }
 
             }
 
