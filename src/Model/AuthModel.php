@@ -8,14 +8,17 @@
 
     namespace App\Model;
     
+    // Project-Imports
     use App\Traits\Encryption;
     use App\Traits\UUID;
     use App\Traits\UserInput;
     
+    // Package-Imports
     use PDOException;   
     
     class AuthModel extends AbstractModel {
 
+        // Use Traits
         use Encryption;
         use UUID;
         use UserInput;
@@ -57,8 +60,9 @@
             }
             catch (PDOException $e) {
 
-                $error_temp = $this->controller->view->load('errors/pdo.html');
-                echo $error_temp->render(['msg' => $e->getMessage()]);
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
 
             }
             
@@ -93,7 +97,9 @@
             }
             catch (PDOException $e) {
                 
-                $this->controller->renderError('auth/login.html', [$e->getMessage()]);
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
 
             }
 
@@ -126,7 +132,9 @@
             }
             catch (PDOException $e) {
                 
-                $this->controller->renderError('auth/login.html', [$e->getMessage()]);
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
 
             }
 
@@ -159,7 +167,9 @@
             }
             catch (PDOException $e) {
 
-                $this->controller->renderError('auth/login.html', [$e->getMessage()]);
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
 
             }
 
@@ -182,7 +192,9 @@
             }
             catch (PDOException $e) {
                 
-                $this->controller->renderError('auth/login.html', [$e->getMessage()]);
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
 
             }
 
@@ -207,7 +219,7 @@
                 catch (PDOException $e) {
 
                     // Render PDOException into the template
-                    $this->controller->renderError('admin/edit_user.html', [$e->getMessage()]);
+                    $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
                     die();
 
                 }
@@ -234,7 +246,7 @@
                 catch (PDOException $e) {
 
                     // Render PDOException into the template
-                    $this->controller->renderError('admin/edit_user.html', [$e->getMessage()]);
+                    $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
                     die();
 
                 }
