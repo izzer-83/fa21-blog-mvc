@@ -1,0 +1,107 @@
+{% extends "layout/base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div class="container mx-auto">
+    
+    {% if messages %}
+        <div class="modal" id="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Error</p>
+                    <a class="delete" aria-label="close" id="close"></a>
+                </header>
+                <section class="modal-card-body">
+                {% for msg in messages %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+                </section>
+                <footer class="modal-card-foot">
+                    <a class="button" id="close2">Close</a>
+                </footer>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="columns">
+        
+        {% include 'admin/admin_sidemenu.html' %}
+
+        <div class="column is-three-quarters">
+            <div class="box">
+                <div class="content">
+                    <h1>Edit User</h1>
+                    <form action="{{ basePath }}/admin/users/edit/{{ user.userID }}" method="post">
+                        
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">userID</div>
+                            <div class="column is-10"><input class="input is-rounded" type="text" value="{{ user.userID }}" disabled></div>
+                        </div>
+                        
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">publicID</div>
+                            <div class="column is-10"><input class="input is-rounded" type="text" value="{{ user.publicID }}" disabled></div>
+                        </div>
+
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Username</div>
+                            <div class="column is-10"><input class="input is-rounded" type="text" value="{{ user.username }}" name="username"></div>
+                        </div>
+
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">E-Mail</div>
+                            <div class="column is-10"><input class="input is-rounded" type="email" value="{{ user.email }}" name="email"></div>
+                        </div>
+
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Admin</div>
+                            <div class="column is-10">
+                                <input type="checkbox" name="isAdmin" {% if user.isAdmin == 1 %}checked{% endif %}>
+                            </div>
+                        </div>
+                        
+                        <h1>Change Password</h1>
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Password</div>
+                            <div class="column is-10"><input class="input" type="text" name="password"></div>
+                        </div>
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Re-type password</div>
+                            <div class="column is-10"><input class="input" type="text" name="password_repeat"></div>
+                        </div>
+
+                        <div class="control">
+                            <button class="button is-link" type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %} 
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        document.getElementById('modal').classList.add('is-active');
+
+        document.getElementById('close').addEventListener('click', () => { 
+            document.getElementById('modal').classList.remove('is-active');
+        });
+
+        document.getElementById('close2').addEventListener('click', () => { 
+            document.getElementById('modal').classList.remove('is-active');
+        });
+        
+        
+        
+    });
+
+</script>
+{% endblock %}

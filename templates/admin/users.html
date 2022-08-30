@@ -1,0 +1,54 @@
+{% extends "layout/base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+<div class="container mx-auto">
+    
+    <div class="columns">
+        
+        {% include 'admin/admin_sidemenu.html' %}
+
+        <div class="column is-three-quarters">
+            <div class="box">
+                <div class="content">
+                    <h1>User-Management</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="5%" class="has-text-centered">ID</th>
+                                <th width="35%">Username</th>
+                                <th width="45%">E-Mail</th>
+                                <th width="5%" class="has-text-centered">Admin</th>
+                                <th width="5%"><i class="fas fa-pen-to-square"></th>
+                                <th width="5%"><i class="fas fa-xmark"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td class="has-text-centered">{{ user.userID }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td class="has-text-centered">
+                                    {% if user.isAdmin == 1 %}Yes{% endif %}
+                                    {% if user.isAdmin == 0 %}No{% endif %}
+                                </td>
+                                <td><a href="{{ basePath }}/admin/users/edit/{{ user.userID }}"><i class="fas fa-pen-to-square"></i></td></a>
+                                <td><a href="{{ basePath }}/admin/users/delete/{{ user.userID }}"><i class="fas fa-xmark"></i></td></a>                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %} 
+<script>
+
+</script>
+{% endblock %}
