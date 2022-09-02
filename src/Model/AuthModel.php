@@ -179,7 +179,7 @@
 
             try {
 
-                $sql = "SELECT * FROM user";
+                $sql = "SELECT * FROM user INNER JOIN user_role ON user.roleID = user_role.user_roleID;";
 
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
@@ -200,19 +200,20 @@
 
         }
 
-        public function updateUserByUserID(int $userID, string $username, string $email, bool $isAdmin, string $newPassword = ''): bool {
+        public function updateUserByUserID(int $userID, string $username, string $email, int $userRole, string $newPassword = ''): bool {
 
             if ($newPassword == '') {
 
                 try {
 
-                    $sql = "UPDATE user SET username = :username, email = :email, isAdmin = :isAdmin WHERE userID = :userID;";
+                    $sql = "UPDATE user SET username = :username, email = :email, roleID = :roleID WHERE userID = :userID;";
 
                     $stmt = $this->pdo->prepare($sql);
                     $stmt->bindParam(':userID', $userID);
+                    $stmt->bindParam(':roleID', $userRole);
                     $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':email', $email);
-                    $stmt->bindParam(':isAdmin', $isAdmin);
+                    
 
                     return $stmt->execute();
                 }
@@ -250,6 +251,75 @@
                     die();
 
                 }
+
+            }
+
+        }
+
+        public function deleteUser(int $userID): bool {
+
+            try {
+
+                $sql = "DELETE FROM user WHERE userID = :userID";
+
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindParam(':userID', $userID);
+
+                $stmt->execute();
+
+                return true;
+            }
+            catch (PDOException $e) {
+
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
+
+            }
+
+        }
+
+        public function getAllUserRoles(): array {
+
+            try {
+
+                $sql = "SELECT * FROM user_role";
+
+                $stmt = $this->pdo->prepare($sql);                
+                $stmt->execute();
+
+                return $stmt->fetchAll();
+
+            }
+            catch (PDOException $e) {
+
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
+
+            }
+
+        }
+
+        public function newUserRole(string $rolename, string $description): bool {
+
+            try {
+
+                $sql = "INSERT INTO user_role (rolename, description) VALUES (:rolename, :description)";
+
+                $stmt = $this->pdo->prepare($sql);
+
+                return $stmt->execute([
+                    ':rolename' => $rolename,
+                    ':description' => $description
+                ]);
+
+            }
+            catch (PDOException $e) {
+
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
 
             }
 

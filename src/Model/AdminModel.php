@@ -23,35 +23,20 @@
 
         }
 
-        public function getAllUsers() {
+        public function getUserCount(): int {
 
-            return $this->authModel->getAllUsers();
+            $sql = "SELECT count(*) FROM user";
 
-        }
-
-        public function getUserByName(string $username) {
-
-            return $this->authModel->getUserByName($username);
+            return $this->pdo->query($sql)->fetchColumn();
 
         }
 
-        public function getUserByEmail(string $email) {
+        public function getLatestUser(): string {
 
-            return $this->authModel->getUserByEmail($email);
+            $sql = "SELECT username FROM user ORDER BY username DESC LIMIT 1";
 
-        }
-
-        public function getUserByUserID(int $id) {
-
-            return $this->authModel->getUserByUserID($id);
-
-        }
-
-        public function updateUserByUserID(int $userID, string $username, string $email, bool $isAdmin, string $password = '') {
-
-            $this->authModel->updateUserByUserID($userID, $username, $email, $isAdmin, $password);
+            return $this->pdo->query($sql)->fetchColumn();
 
         }
         
-
     }

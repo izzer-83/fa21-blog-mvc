@@ -15,6 +15,8 @@
     use App\Settings\AppSettings;
     use App\Model\AuthModel;
     use App\View\View;
+    
+    // Traits
     use App\Traits\Encryption;
     use App\Traits\UserInput;
     
@@ -71,7 +73,20 @@
                         $_SESSION['publicID'] = $res->publicID;
                         $_SESSION['username'] = $res->username;
                         $_SESSION['isLoggedIn'] = true;
-                        $_SESSION['isAdmin'] = $res->isAdmin;                       
+
+                        if ($res->roleID == 1) {
+                            $_SESSION['isAdmin'] = true;
+                        }
+                        else {
+                            $_SESSION['isAdmin'] = false;
+                        }
+
+                        if ($res->roleID == 2) {
+                            $_SESSION['isManager'] = true;
+                        }
+                        else {
+                            $_SESSION['isManager'] = false;
+                        }
 
                         header('Location: ./');
                     }
@@ -116,18 +131,19 @@
 
                 $err_msg = [];
 
+                // Clean user-inputs
+                
+                $username = $this->getCleanString($_POST['username']);
+                $password = $this->getCleanString($_POST['password']);
+                $password_repeat = $this->getCleanString($_POST['password_repeat']);
+                $email = $this->getCleanString($_POST['email']);
+
                 // Check if all user-inputs are set and not empty
                 if (!isset($_POST['username']) || $_POST['username'] == '')                 { $err_msg[4] = 'Please enter an username!'; }
                 if (!isset($_POST['password']) || $_POST['password'] == '')                 { $err_msg[5] = 'Please enter a password!'; }
                 if (!isset($_POST['password_repeat']) || $_POST['password_repeat'] == '')   { $err_msg[6] = 'Please re-enter your password!'; }
                 if (!isset($_POST['email']) || $_POST['email'] == '')                       { $err_msg[7] = 'Please enter an e-mail!'; }
 
-                // Clean user-inputs
-                $username = $this->getCleanString($_POST['username']);
-                $password = $this->getCleanString($_POST['password']);
-                $password_repeat = $this->getCleanString($_POST['password_repeat']);
-                $email = $this->getCleanString($_POST['email']);
-                
                 // Check if user or email-adress already exist
                 if ($this->model->getUserByName($username))                                 { $err_msg[0] = 'The username is already in use...'; }
                 if ($this->model->getUserByEmail($email))                                   { $err_msg[1] = 'The email is already in use...'; }
