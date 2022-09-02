@@ -1,0 +1,43 @@
+{% extends "layout/base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block content %} 
+<div class="container mx-auto" style="padding-top: 200px;">
+    {% if messages %}
+        <div class="modal" id="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Error</p>
+                    <a class="delete" aria-label="close" id="close"></a>
+                </header>
+                <section class="modal-card-body">
+                {% for msg in messages %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+                </section>
+                <footer class="modal-card-foot">
+                    <a class="button" id="close2">Close</a>
+                </footer>
+            </div>
+        </div>
+    {% endif %}
+    
+    <div class="panel">
+        <p class="panel-heading">Delete User?</p>
+        <div class="box">
+            <div class="columns">
+                <div class="column is-12">Are you realy want to delete the User?</div>
+            </div>
+            <div class="columns">
+                <div class="column is-12">
+                    <a class="button is-danger" href="{{ basePath }}/admin/users/delete/{{ userID }}/confirm">Delete</a>
+                    <a class="button is-active" href="{{ basePath }}/admin/users/delete/{{ userID }}">Cancel</a>
+                </div>
+            </div>
+        
+        
+    </div>
+
+</div>
+{% endblock %}
