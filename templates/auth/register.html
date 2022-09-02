@@ -11,7 +11,7 @@
         
         <div class="column is-half">            
 
-            <form class="box" action="register" method="post">
+            <form class="box" action="{{ basePath }}/register" method="post">
 
                 {% if messages %}
                 <div class="modal is-danger" id="modal">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             
-                <button class="button is-primary">Sign in</button>
+                <button class="button is-primary">Sign up</button>
 
             </form>
 
@@ -87,9 +87,7 @@
                 document.getElementById('close2').addEventListener('click', () => { 
                     document.getElementById('modal').classList.remove('is-active');
                 });
-                
-                
-                
+                 
             });
 
         </script>

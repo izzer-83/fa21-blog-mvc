@@ -10,15 +10,19 @@
             <div class="modal-card">
                 <header class="modal-card-head">
                     <p class="modal-card-title">Error</p>
-                    <a href="./" class="delete" aria-label="close" id="close"></a>
+                    <a href="{{ basePath }}" class="delete" aria-label="close" id="close"></a>
                 </header>
                 <section class="modal-card-body">
+                <ul>
                 {% for msg in messages %}
-                    <p>{{ msg }}</p>
+                    
+                    <li>{{ msg }}</li>
+                    
                 {% endfor %}
+                </ul>
                 </section>
                 <footer class="modal-card-foot">
-                    <a href="./" class="button" id="close2">Close</a>
+                    <a href="{{ basePath }}" class="button" id="close2">Close</a>
                 </footer>
             </div>
         </div>
@@ -29,9 +33,28 @@
 {% endblock %}
 
 {% block js %} 
-<script>
-    setTimeout(function(){
-        window.location.href = './';
-     }, 5000);
-</script>
+    {% if messages %}
+        <script>
+
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                document.getElementById('modal').classList.add('is-active');
+
+                document.getElementById('close').addEventListener('click', () => { 
+                    document.getElementById('modal').classList.remove('is-active');
+                });
+
+                document.getElementById('close2').addEventListener('click', () => { 
+                    document.getElementById('modal').classList.remove('is-active');
+                });
+                 
+            });
+
+            setTimeout(function(){
+                document.getElementById('modal').classList.remove('is-active');
+                window.location.href = '{{ basePath }}';
+            }, 5000);
+            
+        </script>
+    {% endif %}
 {% endblock %}
