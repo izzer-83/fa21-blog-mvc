@@ -2,6 +2,9 @@
 
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
+{% if messages %}
+    {% include 'errors/modal.html' %}
+{% endif %}
 <div class="container mx-auto">
     
     <div class="columns">
