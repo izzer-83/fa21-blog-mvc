@@ -13,6 +13,6 @@
         const DB_HOST               = 'localhost';
         const DB_USERNAME           = 'root';
         const DB_PASSWORD           = '';
-        const DB_NAME               = 'blog-mvc';
+        const DB_NAME               = 'fa21-warehouse-manager';
     
     }

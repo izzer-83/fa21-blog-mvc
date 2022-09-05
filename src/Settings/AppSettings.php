@@ -14,7 +14,7 @@
         const APP_TITLE             = 'FA21-Blog-Project-MVC';
         
         // Router configuration for sub-folders
-        const ROUTER_URI_PREFIX        = '/blog-oop';
+        const ROUTER_URI_PREFIX        = '/warehouse-manager-mvc';
 
         // Path for templates and cache
         const TEMPLATE_PATH         = __DIR__ . '/../../templates';
