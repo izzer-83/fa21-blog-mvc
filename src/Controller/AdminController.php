@@ -17,14 +17,17 @@
     use App\Controller\AbstractController;
     use App\Model\AdminModel;
     use App\Model\AuthModel;
+    use App\Model\WarehouseModel;
     use App\View\View;    
     
     use App\Traits\UserStatus;
     use App\Traits\UserInput;
     
+    
     class AdminController extends AbstractController {
 
         private AuthModel $authModel;
+        private WarehouseModel $warehouseModel;
 
         use UserInput;
         use UserStatus;
@@ -34,6 +37,10 @@
             parent::__construct(new AdminModel(), new View());
 
             $this->authModel = new AuthModel();
+            $this->warehouseModel = new WarehouseModel();
+
+            $this->authModel->setController($this);
+            $this->warehouseModel->setController($this);
 
         }
 
@@ -252,6 +259,60 @@
                         'roles' => $this->authModel->getAllUserRoles()
                     ]);
 
+                }
+
+            }
+
+        }
+
+        #[Route('/admin/warehouses', name: 'warehouses_index', methods: ['GET', 'POST'])]
+        public function warehouses_index() {
+
+            // check if user is logged in AND is admin
+            if($this->isLoggedIn() && $this->isAdmin()) {
+
+                if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+                    $template = $this->view->load('admin/warehouses.html');
+                    echo $template->render([
+                        'warehouses' => $this->warehouseModel->getAllWarehouses()
+                    ]);
+
+                }
+
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                    $err_msg = array();
+    
+                    if(!isset($_POST['name']) || $_POST['name'] == '') { array_push($err_msg, 'Pleas enter a name for the warehouse.'); }
+                    if(!isset($_POST['description']) || $_POST['description'] == '') { array_push($err_msg, 'Pleas enter a description for the warehouse.'); }
+                    if(!isset($_POST['maxQuantity']) || $_POST['maxQuantity'] == '') { array_push($err_msg, 'Pleas enter a maximum quantity for the warehouse.'); }
+                    if(!is_int($_POST['maxQuantity']) || $_POST['maxQuantity'] < 0) { array_push($err_msg, 'Please enter a valid number.'); }
+    
+                    $name = $this->getCleanString($_POST['name']);
+                    $description = $this->getCleanString($_POST['description']);
+                    $maxQuantity = $this->getCleanString($_POST['maxQuantity']);
+    
+                    // Render errors into template
+                    if (count($err_msg) > 0) {
+    
+                        $template = $this->view->load('admin/warehouses.html');
+                        echo $template->render([
+                            'messages' => $err_msg,
+                            'warehouses' => $this->warehouseModel->getAllWarehouses()
+                        ]);
+                        die();
+    
+                    }
+    
+                    $this->warehouseModel->newWarehouse($name, $description, $maxQuantity);
+    
+                    $template = $this->view->load('admin/warehouses.html');
+                    echo $template->render([
+                        'messages' => $err_msg,
+                        'warehouses' => $this->warehouseModel->getAllWarehouses()
+                    ]);
+    
                 }
 
             }
