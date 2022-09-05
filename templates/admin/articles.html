@@ -1,0 +1,32 @@
+{% extends "layout/base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+{% if messages %}
+    {% include 'errors/modal.html' %}
+{% endif %}
+<div class="container mx-auto">
+    
+    <div class="columns">
+        
+        {% include 'admin/admin_sidemenu.html' %}
+
+        <div class="column is-three-quarters">
+            
+            <div class="panel">
+                <p class="panel-heading">Article-Management</p>
+                <div class="box">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %} 
+<script>
+
+</script>
+{% endblock %}

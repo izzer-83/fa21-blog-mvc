@@ -1,0 +1,13 @@
+<div class="column is-one-quarter">
+    <nav class="panel">
+        <p class="panel-heading">Warehouses</p>
+        {% for warehouse in warehouses %}
+        <div class="panel-block is-active">
+            <span class="panel-icon">
+                <i class="fas fa-warehouse"></i>
+            </span>
+            <a href="{{ basePath }}/warehouse/details/{{ warehouse.warehouseID }}">{{ warehouse.name }}</a>
+        </div>
+        {% endfor %}
+    </nav>
+</div>

@@ -1,0 +1,25 @@
+{% extends "layout/base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+<div class="container mx-auto">
+    
+    <div class="columns">
+        
+        {% include 'warehouse/sidemenu.html' %}
+
+        <div class="column is-three-quarters">
+            
+            <div class="panel">
+                <p class="panel-heading">User-Management</p>
+                <div class="box">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %} 
+{% endblock %}
