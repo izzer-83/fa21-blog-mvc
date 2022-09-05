@@ -1,0 +1,79 @@
+{% extends "layout/base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% include 'errors/modal.html' %}
+{% endif %}
+<div class="container mx-auto">
+    
+    <div class="columns">
+        
+        {% include 'admin/admin_sidemenu.html' %}
+
+        <div class="column is-three-quarters">
+            
+            <div class="panel">
+                <p class="panel-heading">Warehouse-Management</p>
+                <div class="box">
+                    <table class="table" width="100%">
+                        <thead>
+                            <tr>                                
+                                <th width="25%">Name</th>
+                                <th width="60%">Description</th>
+                                <th width="15%">Max. Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for warehouse in warehouses %}
+                            <tr>
+                                <td>{{ warehouse.name }}</td>
+                                <td>{{ warehouse.description }}</td>
+                                <td class="has-text-centered">{{ warehouse.maxQuantity }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>                        
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <p class="panel-heading">Add a new warehouse</p>
+                <div class="box">
+                    <form action="{{ basePath }}/admin/warehouses" method="post">                
+
+                        <div class="field">
+                            <label class="label">Name</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Warehouse-Name" name="name">
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Description</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="a short description" name="description">
+                            </div>
+                        </div>
+                    
+                        <div class="field">
+                            <label class="label">Max. Quantity</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="0" name="maxQuantity">
+                            </div>
+                        </div>
+                    
+                        <button class="button is-primary">Save</button>
+        
+                    </form>
+        
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
