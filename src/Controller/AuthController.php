@@ -28,6 +28,8 @@
         public function __construct() {
             
             parent::__construct(new AuthModel(), new View());
+
+            $this->model->setController($this);
             
         }
 
