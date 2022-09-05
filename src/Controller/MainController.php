@@ -22,7 +22,7 @@
         }
 
         // routes
-        #[Route('/', name: 'home', methods: ['GET', 'POST'])]
+        #[Route('/', name: 'home', methods: ['GET'])]
         public function home() {
             
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
