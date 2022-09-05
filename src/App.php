@@ -8,12 +8,16 @@
 
     namespace App;
     
-    use App\Controller\MainController;
+    // Project-Imports
     use App\Controller\AuthController;
+    use App\Controller\AdminController;
+    use App\Controller\ArticleController;
+    use App\Controller\MainController;
+    use App\Controller\WarehouseController;
     use App\Settings\AppSettings;
 
+    // Package-Imports
     use AttributesRouter\Router;
-    use App\Controller\AdminController;
     
     class App {
 
@@ -22,9 +26,11 @@
             // Create instance of the Router
             $router = new Router([MainController::class], AppSettings::ROUTER_URI_PREFIX);
 
-            // Add additional routes to the router
+            // Add additional controller to the router
             $router->addRoutes([AuthController::class]);
             $router->addRoutes([AdminController::class]);
+            $router->addRoutes([WarehouseController::class]);
+            $router->addRoutes([ArticleController::class]);
 
             // If there is a match, the route will return the class and method associated
             // to the request as well as route parameters
