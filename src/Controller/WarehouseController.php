@@ -20,11 +20,13 @@
         #[Route('/warehouses', name: 'warehouse_index', methods: ['GET', 'POST'])] 
         public function warehouse_index() {
 
+            // [GET]
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 
                 $template = $this->view->load('warehouse/warehouses.html');
                 echo $template->render([
-                    'warehouses' => $this->model->getAllWarehouses()
+                    'warehouses' => $this->model->getAllWarehouses(),
+                    'articles' => $this->model->getWarehouseOverviewData()
                 ]);
 
             }
