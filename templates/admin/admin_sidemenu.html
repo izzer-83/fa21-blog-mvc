@@ -1,29 +1,41 @@
 <div class="column is-one-quarter">
     <nav class="panel">
         <p class="panel-heading">Administration</p>
+        
         <div class="panel-block is-active">
             <span class="panel-icon">
                 <i class="fas fa-screwdriver-wrench"></i>
             </span>
             <a href="{{ basePath }}/admin">Admin-Index</a>
         </div>
+
+        <div class="panel-block is-active">
+            <span class="panel-icon">
+                <i class="fas fa-shop"></i>
+            </span>
+            <a href="{{ basePath }}/admin/articles">Articles</a>
+        </div>
+
+        <div class="panel-block is-active">
+            <span class="panel-icon">
+                <i class="fas fa-warehouse"></i>
+            </span>
+            <a href="{{ basePath }}/admin/warehouses">Warehouses</a>
+        </div>
+        
         <div class="panel-block is-active">
             <span class="panel-icon">
                 <i class="fas fa-users"></i>
             </span>
             <a href="{{ basePath }}/admin/users">Users</a>
         </div>
+        
         <div class="panel-block is-active">
             <span class="panel-icon">
                 <i class="fas fa-users"></i>
             </span>
             <a href="{{ basePath }}/admin/roles">User-Roles</a>
         </div>
-        <div class="panel-block is-active">
-            <span class="panel-icon">
-                <i class="fas fa-users"></i>
-            </span>
-            <a href="{{ basePath }}/admin/warehouses">Warehouses</a>
-        </div>
+
     </nav>
 </div>
