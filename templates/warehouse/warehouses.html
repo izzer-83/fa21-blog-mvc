@@ -4,18 +4,37 @@
 {% block content %}
 <div class="container mx-auto">
     
-    <div class="columns">
-        
-        {% include 'warehouse/sidemenu.html' %}
+    <div class="columns">      
 
-        <div class="column is-three-quarters">
-            
-            <div class="panel">
-                <p class="panel-heading">User-Management</p>
-                <div class="box">
-                    
+        <div class="column is-12">
+            {% for article in articles %}
+                <div class="panel">
+                    <p class="panel-heading">{{ article.articleName }}</p>
+                    <div class="box">
+                        <div class="columns is-multiline is-gapless">
+                            <div class="column is-12">Description:</div>
+                            <div class="column is-12">{{ article.articleDescription }}</div>    
+                        </div>
+                        <div class="columns">
+                            <div class="column is-2">Warehouse:</div>
+                            <div class="column is-10">{{ article.warehouseName }}</div>
+                        </div>
+                        <div class="columns is-multiline">
+                            <div class="column is-2">Quantity:</div>
+                            <div class="column is-4 {% if article.articleQuantity >= article.articleMinQuantity %}has-text-success{% else %}has-text-danger{% endif %}">{{ article.articleQuantity }}</div>
+                            <div class="column is-2">min. Quantity:</div>
+                            <div class="column is-4">{{ article.articleMinQuantity }}</div>
+                        </div>
+
+                        <div class="columns is-multiline">
+                            <div class="column is-2">created at:</div>
+                            <div class="column is-10">{{ article.articleCreatedAt|date('d. M. Y - h:m:s') }}</div>
+                            <div class="column is-2">created by:</div>
+                            <div class="column is-10">{{ article.username }}</div>
+                        </div>                        
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
