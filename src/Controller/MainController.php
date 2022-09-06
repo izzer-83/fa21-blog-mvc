@@ -25,6 +25,7 @@
         #[Route('/', name: 'home', methods: ['GET'])]
         public function home() {
             
+            // [GET]
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 
                 $template = $this->view->load('index.html');

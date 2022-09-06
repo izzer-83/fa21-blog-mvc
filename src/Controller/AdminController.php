@@ -11,15 +11,15 @@
     // Package-Imports
     use AttributesRouter\Attribute\Route;
 
-    // Project-Imports
-    use App\Settings\AppSettings;
-
+    // Project-Imports    
     use App\Controller\AbstractController;
     use App\Model\AdminModel;
     use App\Model\AuthModel;
     use App\Model\WarehouseModel;
+    use App\Settings\AppSettings;
     use App\View\View;    
     
+    // Traits
     use App\Traits\UserStatus;
     use App\Traits\UserInput;
     
@@ -74,7 +74,7 @@
             // [GET]
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-                // check if user is logged in AND is admin
+                // Check if user is logged in AND is admin
                 if($this->isLoggedIn() && $this->isAdmin()) {
 
                     $template = $this->view->load('admin/users.html');
@@ -85,6 +85,7 @@
 
                 }
 
+                // Render error template if user is not an admin.
                 else {
                     
                     $this->renderError('admin/admin_not_allowed.html', ['You are not allowed to view this page...']);
@@ -104,6 +105,7 @@
                 // Get an escaped string from the userID in the URL
                 $userID = $this->getCleanString($params['id']);
 
+                // [GET]
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {                    
 
                     $template = $this->view->load('admin/user_edit.html');
@@ -115,18 +117,23 @@
 
                 }
 
+                // [POST]
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
+                    // Array for error messages
                     $err_msg = [];
 
+                    // Get clean strings from post
                     $username = $this->getCleanString($_POST['username']);
                     $email = $this->getCleanString($_POST['email']);
                     $password = $this->getCleanString($_POST['password']);
                     $passwordRepeat = $this->getCleanString($_POST['password_repeat']);
                     $userRole = $this->getCleanString($_POST['roles']);
                     
+                    // Query database for username
                     $res = $this->authModel->getUserByName($username);
 
+                    // Error-handling
                     if (!isset($username) || $username == '') { array_push($err_msg, 'Please enter an username...'); }
                     if (strlen($username) < 4) { array_push($err_msg, 'The username is too short. Please choose a username with min. 4 characters...'); }
                     if ($this->authModel->getUserByName($username) && $username != $res->username) { array_push($err_msg, 'The username is already in use...'); }
@@ -189,6 +196,7 @@
                 
             }
 
+            // Render error template if user is not an admin
             else {
                     
                 $this->renderError('admin/admin_not_allowed.html', ['You are not allowed to view this page...']);
@@ -203,8 +211,10 @@
             // Get an escaped string from the URL parameter 'id'
             $userID = $this->getCleanString($params['id']);
 
+            // [GET]
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
+                // Render template
                 $template = $this->view->load('admin/user_delete.html');
                 echo $template->render([
                     'title' => AppSettings::APP_TITLE . ' - Delete User',
@@ -244,6 +254,13 @@
 
             }
 
+            // Render error template if user is not an admin
+            else {
+                    
+                $this->renderError('admin/admin_not_allowed.html', ['You are not allowed to view this page...']);
+
+            }
+
         }
         
         #[Route('/admin/roles', name: 'user_roles', methods: ['GET', 'POST'])]
@@ -252,6 +269,7 @@
             // check if user is logged in AND is admin
             if($this->isLoggedIn() && $this->isAdmin()) {
 
+                // [GET]
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
                     $template = $this->view->load('admin/roles.html');
@@ -263,14 +281,22 @@
 
             }
 
+            // Render error template if user is not an admin
+            else {
+                    
+                $this->renderError('admin/admin_not_allowed.html', ['You are not allowed to view this page...']);
+
+            }
+
         }
 
         #[Route('/admin/warehouses', name: 'warehouses_index', methods: ['GET', 'POST'])]
-        public function warehouses_index() {
+        public function warehousesIndex() {
 
             // check if user is logged in AND is admin
             if($this->isLoggedIn() && $this->isAdmin()) {
 
+                // [GET]
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
                     $template = $this->view->load('admin/warehouses.html');
@@ -280,15 +306,19 @@
 
                 }
 
+                // [POST]
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+                    // Array for error messages
                     $err_msg = array();
     
+                    // Error-handling
                     if(!isset($_POST['name']) || $_POST['name'] == '') { array_push($err_msg, 'Pleas enter a name for the warehouse.'); }
                     if(!isset($_POST['description']) || $_POST['description'] == '') { array_push($err_msg, 'Pleas enter a description for the warehouse.'); }
                     if(!isset($_POST['maxQuantity']) || $_POST['maxQuantity'] == '') { array_push($err_msg, 'Pleas enter a maximum quantity for the warehouse.'); }
                     if(!is_int($_POST['maxQuantity']) || $_POST['maxQuantity'] < 0) { array_push($err_msg, 'Please enter a valid number.'); }
     
+                    // Get clean strings from post array
                     $name = $this->getCleanString($_POST['name']);
                     $description = $this->getCleanString($_POST['description']);
                     $maxQuantity = $this->getCleanString($_POST['maxQuantity']);
@@ -304,15 +334,42 @@
                         die();
     
                     }
-    
+                    
+                    // Create a new warehouse
                     $this->warehouseModel->newWarehouse($name, $description, $maxQuantity);
-    
+                    
+                    // Render template
                     $template = $this->view->load('admin/warehouses.html');
                     echo $template->render([
                         'messages' => $err_msg,
                         'warehouses' => $this->warehouseModel->getAllWarehouses()
                     ]);
     
+                }
+
+            }
+
+            // Render error template if user is not an admin
+            else {
+                    
+                $this->renderError('admin/admin_not_allowed.html', ['You are not allowed to view this page...']);
+
+            }
+
+        }
+
+        #[Route('/admin/articles', name: 'articles_index', methods: ['GET', 'POST'])]
+        public function articlesIndex() {
+
+            // check if user is logged in AND is admin
+            if($this->isLoggedIn() && $this->isAdmin()) {
+
+                // [GET]
+                if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+                    $template = $this->view->load('admin/articles.html');
+                    echo $template->render([]);
+
                 }
 
             }

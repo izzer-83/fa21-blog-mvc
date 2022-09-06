@@ -13,6 +13,7 @@
 
     abstract class AbstractController {
 
+        // Properties
         protected AbstractModel $model;
         protected View $view;
 
@@ -23,6 +24,7 @@
 
         }
 
+        // Function to render an error template from the model
         public function renderError(string $template, array $msg) {
 
             $error_temp = $this->view->load($template);

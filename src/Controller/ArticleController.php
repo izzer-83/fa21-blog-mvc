@@ -20,8 +20,10 @@
         #[Route('/articles', name: 'articles_index', methods: ['GET'])]
         public function articleIndex() {
 
+            // [GET]
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
+                // Render template
                 $template = $this->view->load('articles/articles.html');
                 echo $template->render([
                     'articles' => $this->model->getAllArticle()

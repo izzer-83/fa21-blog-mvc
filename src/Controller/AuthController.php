@@ -50,25 +50,31 @@
             // [POST]
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 
+                // Array for error messages
                 $err_msg = [];
 
+                // Get clean strings from post array
                 $username = $this->getCleanString($_POST['username']);
                 $password = $this->getCleanString($_POST['password']);
                 
-                // handle input errors
+                // Handle input errors
                 if (!isset($_POST['username']) || $_POST['username'] == '') { $err_msg[1] = 'Please enter an email adress!'; }
                 if (!isset($_POST['password']) || $_POST['password'] == '') { $err_msg[2] = 'Please enter a password!'; }
                 
+                // Query database for user
                 $res = $this->model->getUserByName($username);
 
-                // render error if user did not exist
+                // Render error if user did not exist
                 if (!$res) { $err_msg[0] = 'Please enter a valid username/e-mail combination'; }
 
+                // User exist
                 if ($res) {
 
                     // render error if the passwords did not compare
                     if (!$this->compare($password, $res->password)) { $err_msg[0] = 'Please enter a valid username/e-mail combination'; }
                     
+                    // DO LOGIN
+                    // Compare passwords is successful
                     if ($this->compare($password, $res->password)) {
 
                         $_SESSION['sid'] = session_id();
