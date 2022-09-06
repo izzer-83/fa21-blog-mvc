@@ -60,4 +60,38 @@
 
         }
 
+        public function getWarehouseOverviewData(): mixed {
+
+            try {
+
+                $sql = "SELECT warehouse_manager.*, 
+                               article.name AS articleName, 
+                               article.description AS articleDescription, 
+                               article.quantity AS articleQuantity, 
+                               article.minQuantity AS articleMinQuantity,
+                               article.createdAt AS articleCreatedAt, 
+                               warehouse.name AS warehouseName,                                                              
+                               user.username
+                        FROM warehouse_manager 
+                        INNER JOIN article ON warehouse_manager.articleID = article.articleID
+                        INNER JOIN warehouse ON warehouse_manager.warehouseID = warehouse.warehouseID
+                        INNER JOIN user ON warehouse_manager.createdBy = user.userID;";
+
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute();
+
+                return $stmt->fetchAll();
+
+            }
+
+            catch (PDOException $e) {
+
+                // Render PDOException into the template
+                $this->controller->renderError('errors/pdo.html', [$e->getMessage()]);
+                die();
+
+            }
+
+        }
+
     }
