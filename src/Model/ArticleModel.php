@@ -11,7 +11,7 @@
 
         }
 
-        public function newArticle(string $name, string $description, float $quantity, float $minQuantity): bool {
+        public function newArticle(string $name, string $description, float $quantity, float $minQuantity, int $warehouseID, int $userID): bool {
 
             try {
                 $sql = "INSERT INTO article (name, description, quantity, minQuantity) VALUES (:name, :description, :quantity, :minQuantity);";
@@ -22,7 +22,22 @@
                 $stmt->bindParam(':quantity', $quantity);
                 $stmt->bindParam(':minQuantity', $minQuantity);
 
-                return $stmt->execute();
+                $stmt->execute();
+
+                $articleID = $this->pdo->lastInsertId();
+
+                $sql = "INSERT INTO warehouse_manager (articleID, warehouseID, createdBy) VALUES (:articleID, :warehouseID, :userID);";
+
+                $stmt = $this->pdo->prepare($sql);
+
+                $stmt->bindParam(':articleID', $articleID);
+                $stmt->bindParam(':warehouseID', $warehouseID);
+                $stmt->bindParam(':userID', $userID);
+
+                $stmt->execute();
+
+                return true;
+
             }
             catch (PDOException $e) {
 
