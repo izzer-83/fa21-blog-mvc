@@ -12,4 +12,5 @@
     // start the session
     session_start();
 
+    // Include the autoloader from composer
     require_once __DIR__ . '/../vendor/autoload.php';
