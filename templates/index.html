@@ -1,4 +1,21 @@
 {% extends "layout/base.html" %}
 
 {% block title %} {{ title }} {% endblock %}
-{% block content %} {{ test }} {% endblock %}
+{% block content %} 
+
+    <div class="container mx-auto">        
+        <div class="box">
+            <p class="title">Welcome to the Warehouse-Manager</p>
+            <b><p>Administration-Login</p></b>
+            <p>Username: admin</p>
+            <p>Password: 1234</p>
+            <b><p>Moderator-Login</p></b>
+            <p>Username: moderator</p>
+            <p>Password: 12345678</p>
+            <b><p>User-Login</p></b>
+            <p>Username: user</p>
+            <p>Password: 12345678</p>
+        </div>
+    </div>
+
+{% endblock %}
