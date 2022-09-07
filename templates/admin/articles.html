@@ -12,12 +12,45 @@
         {% include 'admin/admin_sidemenu.html' %}
 
         <div class="column is-three-quarters">
-            
             <div class="panel">
-                <p class="panel-heading">Article-Management</p>
-                <div class="box">
-                    
-                </div>
+            <p class="panel-heading">Article-Management</p>
+                <form action="{{ basePath }}/admin/articles" method="post">
+                    <div class="box">
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Name:</div>
+                            <div class="column is-10"><input class="input is-rounded" type="text" name="name"></div>
+                        </div>
+                        
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Description:</div>
+                            <div class="column is-10"><input class="input is-rounded" type="text" name="description"></div>
+                        </div>
+
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Quantity:</div>
+                            <div class="column is-10"><input class="input is-rounded" type="number" name="quantity"></div>
+                        </div>
+
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">min. Quantity</div>
+                            <div class="column is-10"><input class="input is-rounded" type="number" name="minQuantity"></div>
+                        </div>
+
+                        <div class="columns is-vcentered">
+                            <div class="column is-2">Warehouse</div>
+                            <div class="column is-10">
+                                <select name="warehouses">
+                                    {% for warehouse in warehouses %}
+                                        <option value="{{ warehouse.warehouseID }}">{{ warehouse.name }}</option>                                                
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <button class="button is-link" type="submit">Save</button>
+                        </div>
+                    </div>                    
+                </form>
             </div>
         </div>
     </div>
