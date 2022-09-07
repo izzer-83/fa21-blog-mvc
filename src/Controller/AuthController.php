@@ -79,6 +79,7 @@
 
                         $_SESSION['sid'] = session_id();
                         $_SESSION['publicID'] = $res->publicID;
+                        $_SESSION['userID'] = $res->userID;
                         $_SESSION['username'] = $res->username;
                         $_SESSION['isLoggedIn'] = true;
 
@@ -139,18 +140,17 @@
 
                 $err_msg = [];
 
-                // Clean user-inputs
-                
-                $username = $this->getCleanString($_POST['username']);
-                $password = $this->getCleanString($_POST['password']);
-                $password_repeat = $this->getCleanString($_POST['password_repeat']);
-                $email = $this->getCleanString($_POST['email']);
-
                 // Check if all user-inputs are set and not empty
                 if (!isset($_POST['username']) || $_POST['username'] == '')                 { $err_msg[4] = 'Please enter an username!'; }
                 if (!isset($_POST['password']) || $_POST['password'] == '')                 { $err_msg[5] = 'Please enter a password!'; }
                 if (!isset($_POST['password_repeat']) || $_POST['password_repeat'] == '')   { $err_msg[6] = 'Please re-enter your password!'; }
                 if (!isset($_POST['email']) || $_POST['email'] == '')                       { $err_msg[7] = 'Please enter an e-mail!'; }
+
+                // Clean user-inputs                
+                $username = $this->getCleanString($_POST['username']);
+                $password = $this->getCleanString($_POST['password']);
+                $password_repeat = $this->getCleanString($_POST['password_repeat']);
+                $email = $this->getCleanString($_POST['email']);
 
                 // Check if user or email-adress already exist
                 if ($this->model->getUserByName($username))                                 { $err_msg[0] = 'The username is already in use...'; }
@@ -178,13 +178,10 @@
                 // Create new user
                 $newUser = $this->model->newUser($username, $password, $email);
 
-                // Render template
+                // Redirect
                 if ($newUser) {
 
-                    $template = $this->view->load('auth/register.html');
-                    echo $template->render(['messages' => 'New user ' . $username . ' successful created.']);
-                    sleep(3);
-                    #header('Location: ./');
+                    header('Location: ' . AppSettings::ROUTER_URI_PREFIX);
 
                 }
 
