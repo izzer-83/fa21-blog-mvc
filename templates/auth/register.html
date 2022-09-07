@@ -54,25 +54,3 @@
     
 </div>
 {% endblock %}
-
-{% block js %} 
-    {% if messages %}
-        <script>
-
-            document.addEventListener('DOMContentLoaded', () => {
-                
-                document.getElementById('modal').classList.add('is-active');
-
-                document.getElementById('close').addEventListener('click', () => { 
-                    document.getElementById('modal').classList.remove('is-active');
-                });
-
-                document.getElementById('close2').addEventListener('click', () => { 
-                    document.getElementById('modal').classList.remove('is-active');
-                });
-                 
-            });
-
-        </script>
-    {% endif %}
-{% endblock %}
