@@ -69,13 +69,13 @@
                                article.description AS articleDescription, 
                                article.quantity AS articleQuantity, 
                                article.minQuantity AS articleMinQuantity,
-                               article.createdAt AS articleCreatedAt, 
+                               article.createdAt AS articleCreatedAt,                                
                                warehouse.name AS warehouseName,                                                              
                                user.username
                         FROM warehouse_manager 
                         INNER JOIN article ON warehouse_manager.articleID = article.articleID
                         INNER JOIN warehouse ON warehouse_manager.warehouseID = warehouse.warehouseID
-                        INNER JOIN user ON warehouse_manager.createdBy = user.userID;";
+                        INNER JOIN user ON warehouse_manager.createdBy = user.userID ORDER BY warehouseID ASC;";
 
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
