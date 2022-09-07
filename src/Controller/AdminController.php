@@ -14,6 +14,7 @@
     // Project-Imports    
     use App\Controller\AbstractController;
     use App\Model\AdminModel;
+    use App\Model\ArticleModel;
     use App\Model\AuthModel;
     use App\Model\WarehouseModel;
     use App\Settings\AppSettings;
@@ -24,8 +25,10 @@
     use App\Traits\UserInput;
     
     
+    
     class AdminController extends AbstractController {
 
+        private ArticleModel $articleModel;
         private AuthModel $authModel;
         private WarehouseModel $warehouseModel;
 
@@ -38,9 +41,11 @@
 
             $this->authModel = new AuthModel();
             $this->warehouseModel = new WarehouseModel();
+            $this->articleModel = new ArticleModel();
 
             $this->authModel->setController($this);
             $this->warehouseModel->setController($this);
+            $this->articleModel->setController($this);
 
         }
 
@@ -54,7 +59,9 @@
                 echo $template->render([
                     'title' => AppSettings::APP_TITLE . ' - Adminbereich',
                     'userCount' => $this->model->getUserCount(),
-                    'latestUser' => $this->model->getLatestUser()
+                    'latestUser' => $this->model->getLatestUser(),
+                    'articleCount' => $this->model->getArticleCount(),
+                    'latestArticle' => $this->model->getLatestArticle()
                 ]);
 
             }
@@ -358,7 +365,7 @@
 
         }
 
-        #[Route('/admin/articles', name: 'articles_index', methods: ['GET', 'POST'])]
+        #[Route('/admin/articles', name: 'articles_admin_index', methods: ['GET', 'POST'])]
         public function articlesIndex() {
 
             // check if user is logged in AND is admin
@@ -368,10 +375,45 @@
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
                     $template = $this->view->load('admin/articles.html');
-                    echo $template->render([]);
+                    echo $template->render([
+                        'warehouses' => $this->warehouseModel->getAllWarehouses()
+                    ]);
 
                 }
 
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                    $err_msg = array();
+
+                    if (!isset($_POST['name']) || $_POST['name'] == '') { array_push($err_msg, 'Please enter a name.'); }
+                    if (!isset($_POST['description']) || $_POST['description'] == '') { array_push($err_msg, 'Please enter a description.'); }
+                    if (!isset($_POST['quantity']) || $_POST['quantity'] == '') { array_push($err_msg, 'Please enter a quantity.'); }
+                    if (!isset($_POST['minQuantity']) || $_POST['minQuantity'] == '') { array_push($err_msg, 'Please enter a minQuantity.'); }
+                    if (!isset($_POST['warehouses']) || $_POST['warehouses'] == '') { array_push($err_msg, 'Please enter a warehouse.'); }
+
+
+                    if (count($err_msg) > 0) {
+
+                        $this->renderError('admin/articles.html', $err_msg);
+
+                    }
+                    
+                    else {
+
+                        $name = $this->getCleanString($_POST['name']);
+                        $description = $this->getCleanString($_POST['description']);
+                        $quantity = $this->getCleanString($_POST['quantity']);
+                        $minQuantity = $this->getCleanString($_POST['minQuantity']);
+                        $warehouseID = $this->getCleanString($_POST['warehouses']);
+
+                        $this->articleModel->newArticle($name, $description, $quantity, $minQuantity, $warehouseID, $_SESSION['userID']);
+
+                        $template = $this->view->load('admin/articles.html');
+                        echo $template->render();
+                    }
+
+                }
+                
             }
 
         }
