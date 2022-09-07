@@ -25,7 +25,7 @@
 
         public function getUserCount(): int {
 
-            $sql = "SELECT count(*) FROM user";
+            $sql = "SELECT count(*) FROM user;";
 
             return $this->pdo->query($sql)->fetchColumn();
 
@@ -33,7 +33,23 @@
 
         public function getLatestUser(): string {
 
-            $sql = "SELECT username FROM user ORDER BY username DESC LIMIT 1";
+            $sql = "SELECT username FROM user ORDER BY userID DESC LIMIT 1;";
+
+            return $this->pdo->query($sql)->fetchColumn();
+
+        }
+
+        public function getArticleCount(): int {
+
+            $sql = "SELECT count(managerID) FROM warehouse_manager;";
+            
+            return $this->pdo->query($sql)->fetchColumn();
+
+        }
+
+        public function getLatestArticle(): string {
+
+            $sql = "SELECT name FROM article ORDER BY articleID DESC LIMIT 1;";
 
             return $this->pdo->query($sql)->fetchColumn();
 
