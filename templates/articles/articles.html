@@ -10,7 +10,11 @@
             {% for article in articles %}            
 
                 <div class="panel">
-                    <p class="panel-heading">{{ article.name }}</p>
+                    <div class="columns">
+                        <div class="column is-6"><p class="panel-heading">{{ article.name }}</p></div>
+                        <div class="column is-6">hgj</div>
+                    </div>
+                    
                     <div class="box">
                         <p>Description: {{ article.description }}</p>
                         <p {% if article.quantity >= article.minQuantity %}class="has-text-success"{% else %}class="has-text-danger"{% endif %}>Quantity: {{ article.quantity }}</p>

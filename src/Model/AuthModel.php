@@ -114,8 +114,6 @@
          */ 
         public function getUserByName(string $username): mixed {
 
-            $username = $this->getCleanString($username);
-
             try {
 
                 $sql = "SELECT * FROM user WHERE username = :username";

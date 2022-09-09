@@ -21,8 +21,9 @@
                         <thead>
                             <tr>                                
                                 <th width="25%">Name</th>
-                                <th width="60%">Description</th>
+                                <th width="55%">Description</th>
                                 <th width="15%">Max. Quantity</th>
+                                <th width="5%">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,6 +32,7 @@
                                 <td>{{ warehouse.name }}</td>
                                 <td>{{ warehouse.description }}</td>
                                 <td class="has-text-centered">{{ warehouse.maxQuantity }}</td>
+                                <td class="has-text-centered"><a href="{{ basePath }}/admin/warehouse/delete/{{ warehouse.warehouseID }}"><i class="fas fa-xmark"></a></td>
                             </tr>
                             {% endfor %}
                         </tbody>                        
