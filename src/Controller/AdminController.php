@@ -409,7 +409,9 @@
                         $this->articleModel->newArticle($name, $description, $quantity, $minQuantity, $warehouseID, $_SESSION['userID']);
 
                         $template = $this->view->load('admin/articles.html');
-                        echo $template->render();
+                        echo $template->render([
+                            'warehouses' => $this->warehouseModel->getAllWarehouses()
+                        ]);
                     }
 
                 }
