@@ -10,9 +10,9 @@
 
     abstract class DatabaseSettings {
      
-        const DB_HOST               = 'localhost';
-        const DB_USERNAME           = 'root';
+        const DB_HOST               = '';
+        const DB_USERNAME           = '';
         const DB_PASSWORD           = '';
-        const DB_NAME               = 'fa21-warehouse-manager';
+        const DB_NAME               = '';
     
     }
